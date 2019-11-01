@@ -1,4 +1,4 @@
-#include "basicFun.cpp"
+#include "prog.cpp"
 
 class encryption{
 	public:
@@ -44,68 +44,40 @@ class encryption{
 		}
 };
 class fileinout{
-	private:
-		fstream fin,fout;
-		encryption e;
+
 	public:
-		fileinout(string filename){
-			if(filename == "criminal"){
-				fin.open("criminal.txt",ios::in);
-				fout.open("criminal.txt",ios::app);
-			}else if(filename == "policeman"){
-				fin.open("policeman.txt",ios::in);
-				fout.open("policeman.txt",ios::app);
-			}else{
-				fin.open("defaultInfo.txt",ios::in);
-				fout.open("defaultInfo.txt",ios::app);
-			}
-			
-		}
-		~fileinout(){
-			fin.close();
+		void writeToFile(Criminal obj){
+			fstream fout;
+			fout.open("criminal.dat",ios::app|ios::binary);
+			fout.write((char *) &obj,sizeof(obj));
 			fout.close();
 		}
-		void fwSingle(string info){
-			fout << e.encrpt(info)<<"\n";
+		vector<Criminal> readFromFile(){
+			fstream fin;
+			vector<Criminal> robjs;
+			Criminal tobj;
+			fin.open("criminal.dat",ios::in|ios::binary);
+			while(fin.read((char *) &tobj,sizeof(tobj))){
+				robjs.push_back(tobj);
+			}
+			return robjs;
 		}
-		void fwDouble(string info1,string info2){
-			fout << e.encrpt(info1) << "\t" << e.encrpt(info2) << "\n";
+		void writeToFile(PoliceMan obj){
+			fstream fout;
+			fout.open("police.dat",ios::app|ios::binary);
+			fout.write((char *) &obj,sizeof(obj));
+			fout.close();
+//			cout << "Sucessfully recorded";
 		}
-		void fwOs(){
-			fout << "fileObjStart \n";
-		}
-		void fwOe(){
-			fout << "fileObjEnd \n";
+		vector<PoliceMan> readFromFile(int n){
+			fstream fin;
+			vector<PoliceMan> robjs;
+			PoliceMan tobj;
+			fin.open("police.dat",ios::in|ios::binary);
+			while(fin.read((char *) &tobj,sizeof(tobj))){
+				robjs.push_back(tobj);
+			}
+			return robjs;
 		}
 };
 
-//int main(){
-//fstream f;
-//encryption e;
-//f.open("abc.txt",ios::out);
-//f << e.encrpt("a\t_");
-//f.close();
-//f.open("abc.txt",ios::in);
-//string a,b;
-//int i='~';
-//char c = 255;
-//cout << i << endl;
-//cout << c <<endl;
-//f >> a >> b;
-//cout << e.dcrpt(a) << c <<b;
-//	f.open("abc.txt",ios::out);
-//	string fname = "Manu",sname = "Agarwal";
-//	f << fname <<sname<<"";
-//	cout << fname << " "<<sname;
-//	f.close();
-
-//string a,b;
-//a = e.encrpt("ayush agarwal is my name");
-//b = e.dcrpt(a);
-//cout << a << endl << b;
-//for(int i =0;i<255;i++){
-//	char c = i;
-//	cout << c;
-//}
-//return 0;
-//}

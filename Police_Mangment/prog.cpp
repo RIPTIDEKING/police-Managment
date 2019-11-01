@@ -1,179 +1,204 @@
-//#include <bits/stdc++.h>
-//using namespace std;
-#include "fio_manag.cpp"
+
+#include "basicFun.cpp"
 
 class basePersonInfo{
 	private:
-		string address;
-		string phoneNumber;
+		char address[100];
+		char phoneNumber[30];
 	protected:
-		string dob;
+		char dob[15];
 		int age;
-		string complexion;
-		string birthMarks;	
-		void setAdd(string addr){
-			address =addr; 
+		char gender[20];
+		char complexion[40];
+		char birthMarks[40];	
+		void setAdd(char addr[]){
+			for(int i=0;i<100;i++){
+			address[i] = addr[i];	
+			}
+			 
 		}
-		void setPhNo(string phnr){
-			phoneNumber = phnr;
+		void setPhNo(char phnr[]){
+			for(int i=0;i<30;i++){
+				phoneNumber[i] = phnr[i];
+			}
 		}
-		string getAdd(){
+		char * getAdd(){
 			return address;
 		}
-		string getPhNo(){
+		char * getPhNo(){
 			return phoneNumber;
 		}
 	public:
-		string fName;
-		string lName;
-		virtual void createEntry(
-//		string fname,
-//		string lname,
-//		string Dob,
-//		int Age,
-//		string Complexion,
-//		string birthmark,
-//		string addr,
-//		string phoneNo
-		)=0;	
+		char fName[20];
+		char lName[20];
+//		virtual void createEntry()=0;	
 };
 
 class Criminal:public basePersonInfo{
 	protected:
-		string caughtBy;
+		char caughtBy[100];
 	public:
-		string crimes;		
-		Criminal(){}
-		Criminal(
-		string fname,
-		string lname,
-		string Dob,
-		int Age,
-		string Complexion,
-		string birthmark,
-		string addr,
-		string phoneNo,
-		string crime,
-		string CaughtBy){
-			fName = fname;
-			lName = lname;
-			dob = Dob;
-			age = Age;
-			complexion = Complexion;
-			birthMarks = birthmark;
-			setPhNo(phoneNo);
-			setAdd(addr);
-			crimes = crime;
-			caughtBy = CaughtBy;		
+		char criminalid[50];
+		char crimes[100];
+		char punishment[100];
+		bool status;		
+		
+		bool match(vector<Criminal> v){
+		for(int i=0;i<v.size();i++){
+			if(StrCmp(v[i].criminalid,criminalid)){
+				return 1;
+			}
 		}
-		void EnterInfo(
-		string fname,
-		string lname,
-		string Dob,
-		int Age,
-		string Complexion,
-		string birthmark,
-		string addr,
-		string phoneNo,
-		string crime,
-		string CaughtBy){
-			fName = fname;
-			lName = lname;
-			dob = Dob;
-			age = Age;
-			complexion = Complexion;
-			birthMarks = birthmark;
-			setPhNo(phoneNo);
-			setAdd(addr);
-			crimes = crime;
-			caughtBy = CaughtBy;		
+		return 0;	
 		}
-	void createEntry(){
-		fileinout f("criminal");
-		f.fwOs();
-		f.fwDouble(fName,lName);
-		f.fwDouble(dob,toStr(age));
-		f.fwSingle(complexion);
-		f.fwSingle(birthMarks);
-		f.fwSingle(getAdd());
-		f.fwSingle(getPhNo());
-		f.fwSingle(crimes);
-		f.fwSingle(caughtBy);
-		f.fwOe();
-	}
+		
+		void EnterInfo(vector<Criminal> v){
+			char Age[3];
+			char phoneNo[30];
+			char addr[100];
+			cout << endl << "Criminal I'd: ";
+			cin.getline(criminalid,sizeof(criminalid));
+			
+			if(match(v)){
+				cout <<endl <<"Already Exist"<<endl;
+				return;
+			}
+			
+			cout <<"First Name: ";
+			//cin.ignore();
+			cin.getline(fName,sizeof(fName));
+			cout <<"Last Name: ";
+			cin.getline(lName,sizeof(lName));
+			cout <<"Gender: ";
+			cin.getline(gender,sizeof(gender));
+			cout <<"Date of birth: ";
+			cin.getline(dob,sizeof(dob));
+			cout << "Age: ";
+			cin.getline(Age,sizeof(Age));
+			cout << "Complexion: ";
+			cin.getline(complexion,sizeof(complexion));
+			cout << "birthMarks: ";
+			cin.getline(birthMarks,sizeof(birthMarks));
+			cout << "Phone Number: ";
+			cin.getline(phoneNo,sizeof(phoneNo));
+			cout << "address: ";
+			cin.getline(addr,sizeof(addr));
+			cout << "Crimes: ";
+			cin.getline(crimes,sizeof(crimes));
+			cout << "Caught Status (1 for caught and 0 for still at large): ";
+			cin >> status;
+			cin.ignore();
+			if(status){
+			cout << "Caught By: ";
+			cin.getline(caughtBy,sizeof(caughtBy));
+			cout << "Punishment: ";
+			cin.getline(punishment,sizeof(punishment));	
+			}else{
+				strcpy(caughtBy,"None");
+				strcpy(punishment,"None");
+			}
+			age = stoi(Age);
+			setPhNo(phoneNo);
+			setAdd(addr);		
+		}
+		void showOnScreen(){
+			cout << endl;
+			cout << "Name: "<<fName<<" "<<lName<<endl;
+			cout << "Criminal I'd: "<<criminalid<<endl;
+			cout << "Gender: "<<gender<<endl;
+			cout << "Date of Birth (AGE): "<<dob<<" ("<<age<<") "<<endl;
+			cout << "Complexion: "<<complexion<<endl;
+			cout << "birth Marks: "<<birthMarks<<endl;
+			cout << "Phone Number:"<<getPhNo()<<endl;
+			cout << "Address: "<<getAdd()<<endl;
+			cout << "Crimes: "<<crimes<<endl;
+			cout << "Caught Status: ";
+			if (status){
+			cout << "Already Caught"<<endl;
+			cout << "Caught By: "<<caughtBy<<endl;
+			cout << "Punishment: "<<punishment<<endl;
+			}else{
+				cout << "Still at Large"<<endl;
+			}
+			
+		}
 };
 
 class PoliceMan:private basePersonInfo{
 	protected:
-		int salary;
+		char salary[100];
+		
 	public:
-		string post;
-		int cCaught;
-				
-		PoliceMan(){}
-		PoliceMan(
-		string fname,
-		string lname,
-		string Dob,
-		int Age,
-		string Complexion,
-		string birthmark,
-		string addr,
-		string phoneNo,
-		string Post,
-		int Salary,
-		int CCaught){
-			fName = fname;
-			lName = lname;
-			dob = Dob;
-			age = Age;
-			complexion = Complexion;
-			birthMarks = birthmark;
-			setPhNo(phoneNo);
-			setAdd(addr);
-			post = Post;
-			cCaught = CCaught;
-			salary = Salary;		
+		char officerid[50];
+		char post[100];
+		int cCaught;	
+		
+		bool match(vector<PoliceMan> v){
+		for(int i=0;i<v.size();i++){
+			if(StrCmp(v[i].officerid,officerid)){
+				return 1;
+			}
 		}
-		void EnterInfo(
-		string fname,
-		string lname,
-		string Dob,
-		int Age,
-		string Complexion,
-		string birthmark,
-		string addr,
-		string phoneNo,
-		string Post,
-		int Salary,
-		int CCaught){
-			fName = fname;
-			lName = lname;
-			dob = Dob;
-			age = Age;
-			complexion = Complexion;
-			birthMarks = birthmark;
-			setPhNo(phoneNo);
-			setAdd(addr);
-			post = Post;
-			salary = Salary;	
+		return 0;	
 		}
-	void createEntry(){
-		fileinout f("policeman");
-		f.fwOs();
-		f.fwDouble(fName,lName);
-		f.fwDouble(dob,toStr(age));
-		f.fwDouble(post,toStr(salary));
-		f.fwSingle(complexion);
-		f.fwSingle(birthMarks);
-		f.fwSingle(getAdd());
-		f.fwSingle(getPhNo());
-		f.fwSingle(toStr(cCaught));
-		f.fwOe();
-	}
+		
+		void EnterInfo(vector<PoliceMan> v){
+			char Age[3];
+			char phoneNo[30];
+			char addr[100];
+			char ccaught[50];
+			cout << endl << "Officer I'd: ";
+			cin.getline(officerid,sizeof(officerid));
+			
+			if(match(v)){
+				cout <<endl <<"Already Exist"<<endl;
+				return;
+			}
+			
+			cout <<"First Name: ";
+			cin.getline(fName,sizeof(fName));
+			cout <<"Last Name: ";
+			cin.getline(lName,sizeof(lName));
+			cout <<"Gender: ";
+			cin.getline(gender,sizeof(gender));
+			cout <<"Date of birth: ";
+			cin.getline(dob,sizeof(dob));
+			cout << "Age: ";
+			cin.getline(Age,sizeof(Age));
+			cout << "Complexion: ";
+			cin.getline(complexion,sizeof(complexion));
+			cout << "birthMarks: ";
+			cin.getline(birthMarks,sizeof(birthMarks));
+			cout << "Post: ";
+			cin.getline(post,sizeof(post));
+			cout << "Phone Number: ";
+			cin.getline(phoneNo,sizeof(phoneNo));
+			cout << "address: ";
+			cin.getline(addr,sizeof(addr));
+			cout << "Salary: ";
+			cin.getline(salary,sizeof(salary));
+			cout << "Criminals Caught: ";
+			cin.getline(ccaught,sizeof(ccaught));
+			age = stoi(Age);
+			cCaught = stoi(ccaught);
+			setPhNo(phoneNo);
+			setAdd(addr);		
+		}
+		void showOnScreen(){
+			cout << endl;
+			cout << "Name: "<<fName<<" "<<lName<<endl;
+			cout << "Officer I'd: "<<officerid<<endl;
+			cout << "Gender: "<<gender<<endl;
+			cout << "Date of Birth (AGE): "<<dob<<" ("<<age<<") "<<endl;
+			cout << "Complexion: "<<complexion<<endl;
+			cout << "birth Marks: "<<birthMarks<<endl;
+			cout << "Post: "<<post<<endl;
+			cout << "Salary: "<<salary<<endl;
+			cout << "Phone Number:"<<getPhNo()<<endl;
+			cout << "Address: "<<getAdd()<<endl;
+			cout << "Criminal Caught: "<<cCaught<<endl;
+		}
+		
 };
 
-//int main(){
-//
-//	return 0;
-//}
+
