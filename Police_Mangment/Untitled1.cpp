@@ -20,7 +20,12 @@ int main(){
 //	for (int i=0;i<v.size();i++){
 //		v[i].showOnScreen();
 //	}
-bool tf;
-cin >> tf;
-cout << tf;
+char ch[100];
+cin.getline(ch,sizeof(ch));
+if(!strcmp(ch,"")){
+	cout << "Sucess";
+	cout << ch;
+}else{
+	cout << "Failed";
+}
 }

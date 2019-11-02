@@ -126,13 +126,12 @@ class Criminal:public basePersonInfo{
 class PoliceMan:public basePersonInfo{
 	private:
 		char password[100];
-	protected:
-		char salary[100];
 		
 	public:
 		char officerid[100];
 		char post[100];
-		int cCaught;	
+		int cCaught;
+		char salary[100];	
 		
 		bool match(vector<PoliceMan> v){
 		for(int i=0;i<v.size();i++){
@@ -144,7 +143,7 @@ class PoliceMan:public basePersonInfo{
 		}
 		
 		void setPass(char pass[]){
-			strcpy(pass,password);
+			strcpy(password,pass);
 		}
 		char * getPass(){
 			return password;
@@ -208,6 +207,8 @@ class PoliceMan:public basePersonInfo{
 			cout << "Address: "<<getAdd()<<endl;
 			cout << "Criminal Caught: "<<cCaught<<endl;
 		}
+		
+		
 		
 };
 

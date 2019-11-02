@@ -5,16 +5,244 @@ class guiManage{
 		vector<Criminal> criminals;
 		vector<PoliceMan> police;
 		Criminal tc;
-		PoliceMan tp;
+		PoliceMan tp,cp;
 		
 		
 	guiManage(){
 	
 	}
 	
-	// authentication
 	// show options according to permission
-	//Update
+	//Update criminal
+	// caught status
+	
+	void chgPass(){
+			char tpass[100];
+			cout << endl << "Enter Current Password: ";
+			cin.getline(tpass,sizeof(tpass));
+			if(strcmp(cp.getPass(),tpass)){
+			cout << endl << "Wrong Password!!!"<<endl;
+			return;	
+			}
+			cout << endl << "Enter New Password: ";
+			//cin.ignore();
+			cin.getline(tpass,sizeof(tpass));
+			cp.setPass(tpass);
+			//cout <<"bbb"<< tpass<<"aaa";
+			
+			for(int i=0;i<police.size();i++){
+				if(StrCmp(cp.officerid,police[i].officerid)){
+					police[i] = cp;
+				}
+			}
+			fileinout ff;
+			remove("police.dat");
+			for(int j =0;j<police.size();j++){
+				ff.writeToFile(police[j]);
+			}
+			cout << endl <<"Password Updated Sucessfully!!"<<endl;
+		}
+	
+	void updatePolice(){
+		char id[100];
+		cout << "Enter Officer I'd : ";
+		cin.getline(id,sizeof(id));
+	
+		PoliceMan temp;
+		bool f = 1;	
+		for(int i=0;i<police.size();i++){
+			if(StrCmp(police[i].officerid,id)){
+				cout << endl << "Entered information will be updated and blank will remain same.";
+				strcpy(temp.officerid,id);
+				temp.setPass(police[i].getPass());
+				cout <<endl << "First Name: ";
+				cin.getline(temp.fName,sizeof(temp.fName));
+				if(StrCmp(temp.fName,"")){
+					strcpy(temp.fName, police[i].fName);
+				}
+				cout <<"Last Name: ";
+				cin.getline(temp.lName,sizeof(temp.lName));
+				if(StrCmp(temp.lName,"")){
+					strcpy(temp.lName,police[i].lName);
+				}
+				cout << "Gender: ";
+				cin.getline(temp.gender,sizeof(temp.gender));
+				if(StrCmp(temp.gender,"")){
+					strcpy(temp.gender,police[i].gender);
+				}
+				cout << "dob: ";
+				cin.getline(temp.dob,sizeof(temp.dob));
+				if(StrCmp(temp.dob,"")){
+					strcpy(temp.dob,police[i].dob);
+				}
+				cout << "Age (0 for no change) : ";
+				cin >> temp.age;
+				cin.ignore();
+				if(temp.age == 0){
+					temp.age = police[i].age;
+				}
+				cout << "Complexion: ";
+				cin.getline(temp.complexion,sizeof(temp.complexion));
+				if(StrCmp(temp.complexion,"")){
+					strcpy(temp.complexion,police[i].complexion);
+				}
+				cout << "Birth Marks: ";
+				cin.getline(temp.birthMarks,sizeof(temp.birthMarks));
+				if(StrCmp(temp.birthMarks,"")){
+					strcpy(temp.birthMarks,police[i].birthMarks);
+				}
+				cout << "Post: ";
+				cin.getline(temp.post,sizeof(temp.post));
+				if(StrCmp(temp.post,"")){
+					strcpy(temp.post,police[i].post);
+				}
+				cout << "Salary: ";
+				cin.getline(temp.salary,sizeof(temp.salary));
+				if(StrCmp(temp.salary,"")){
+					strcpy(temp.salary,police[i].salary);
+				}
+				cout << "Criminal Caught (0 for no Change) : ";
+				cin >> temp.cCaught;
+				cin.ignore();
+				if(temp.cCaught == 0){
+					temp.cCaught = police[i].cCaught;
+				}
+				cout << "Address: ";
+				char t[100];
+				cin.getline(t,sizeof(t));
+				if(StrCmp(t,"")){
+					temp.setAdd(police[i].getAdd());
+				}else{
+					temp.setAdd(t);
+				}
+				cout << "Phone Number: ";
+				char tt[30];
+				cin.getline(tt,sizeof(tt));
+				if(StrCmp(tt,"")){
+					temp.setPhNo(police[i].getPhNo());
+				}else{
+					temp.setPhNo(tt);
+				}
+				police[i] = temp;
+				f = 0;
+				break;
+			}
+		}
+		if(f){
+			cout << endl << "Invalid Id!!"<<endl;
+			return;
+		}
+		fileinout ff;
+		remove("police.dat");
+		for(int j =0;j<police.size();j++){
+			ff.writeToFile(police[j]);
+		}
+		cout << endl << "Information sucessfully updated."<<endl;
+		return;
+		
+	}
+	void updateCriminal(){
+		char id[100];
+		cout << "Enter Criminal I'd : ";
+		cin.getline(id,sizeof(id));
+	
+		Criminal temp;
+		bool f = 1;	
+		for(int i=0;i<criminals.size();i++){
+			if(StrCmp(criminals[i].criminalid,id)){
+				cout << endl << "Entered information will be updated and blank will remain same.";
+				strcpy(temp.criminalid,id);
+				cout <<endl << "First Name: ";
+				cin.getline(temp.fName,sizeof(temp.fName));
+				if(StrCmp(temp.fName,"")){
+					strcpy(temp.fName, criminals[i].fName);
+				}
+				cout <<"Last Name: ";
+				cin.getline(temp.lName,sizeof(temp.lName));
+				if(StrCmp(temp.lName,"")){
+					strcpy(temp.lName,criminals[i].lName);
+				}
+				cout << "Gender: ";
+				cin.getline(temp.gender,sizeof(temp.gender));
+				if(StrCmp(temp.gender,"")){
+					strcpy(temp.gender,criminals[i].gender);
+				}
+				cout << "dob: ";
+				cin.getline(temp.dob,sizeof(temp.dob));
+				if(StrCmp(temp.dob,"")){
+					strcpy(temp.dob,criminals[i].dob);
+				}
+				cout << "Age (0 for no change) : ";
+				cin >> temp.age;
+				cin.ignore();
+				if(temp.age == 0){
+					temp.age = criminals[i].age;
+				}
+				cout << "Complexion: ";
+				cin.getline(temp.complexion,sizeof(temp.complexion));
+				if(StrCmp(temp.complexion,"")){
+					strcpy(temp.complexion,criminals[i].complexion);
+				}
+				cout << "Birth Marks: ";
+				cin.getline(temp.birthMarks,sizeof(temp.birthMarks));
+				if(StrCmp(temp.birthMarks,"")){
+					strcpy(temp.birthMarks,criminals[i].birthMarks);
+				}
+				cout << "Crimes: ";
+				cin.getline(temp.crimes,sizeof(temp.crimes));
+				if(StrCmp(temp.crimes,"")){
+					strcpy(temp.crimes,criminals[i].crimes);
+				}
+				
+				cout << "Status ( 1 for caught / 0 for not caught ): ";
+				cin >> temp.status;
+				cin.ignore();
+				if(temp.status){
+					cout << "Caught By: ";
+					cin.getline(temp.caughtBy,sizeof(temp.caughtBy));
+					if(StrCmp(temp.caughtBy,"")){
+						strcpy(temp.caughtBy,criminals[i].caughtBy);
+					}
+					cout << "Punishment: ";
+					cin.getline(temp.punishment,sizeof(temp.punishment));
+					if(StrCmp(temp.punishment,"")){
+						strcpy(temp.punishment,criminals[i].punishment);
+					}
+				}
+				cout << "Address: ";
+				char t[100];
+				cin.getline(t,sizeof(t));
+				if(StrCmp(t,"")){
+					temp.setAdd(criminals[i].getAdd());
+				}else{
+					temp.setAdd(t);
+				}
+				cout << "Phone Number: ";
+				char tt[30];
+				cin.getline(tt,sizeof(tt));
+				if(StrCmp(tt,"")){
+					temp.setPhNo(criminals[i].getPhNo());
+				}else{
+					temp.setPhNo(tt);
+				}
+				criminals[i] = temp;
+				f = 0;
+				break;
+			}
+		}
+		if(f){
+			cout << endl << "Invalid Id!!"<<endl;
+			return;
+		}
+		fileinout ff;
+		remove("criminal.dat");
+		for(int j =0;j<criminals.size();j++){
+			ff.writeToFile(criminals[j]);
+		}
+		cout << endl << "Information sucessfully updated."<<endl;
+		return;
+		
+	}
 	
 	bool auth(){
 		char offid[100],passw[100];
@@ -24,9 +252,10 @@ class guiManage{
 		cin.getline(passw,sizeof(passw));
 		for(int i=0;i<police.size();i++){
 			if(StrCmp(police[i].officerid,offid)){
-				//cout <<endl<<" pass "<< police[i].getPass() << "  word: "<<i<<endl;
+			//	cout <<endl<<" pass "<< police[i].getPass() << "  word: "<<i<<endl;
 				if(!strcmp(passw,police[i].getPass())){
 					//guiInit();
+					cp = police[i];
 					return 0;
 				}else{
 					cout << "Wrong Password"<<endl;
@@ -45,7 +274,7 @@ class guiManage{
 		for(int i=0;i<police.size();i++){
 			if(Search(police[i].officerid,id)){
 			f = 0;
-			cout << "here";
+			//cout << "here";
 			continue;
 			}
 			temp.push_back(police[i]);
@@ -454,14 +683,17 @@ class guiManage{
 
 	void guiInit(){
 		cout << endl;
-		cout << "1. Enter Police information"<<endl;
+		cout << "1. Enter Officer information"<<endl;
 		cout << "2. Enter Criminal information"<<endl;
-		cout << "3. Show Police Men Information"<<endl;
+		cout << "3. Show Officer Information"<<endl;
 		cout << "4. Show Criminals Information"<<endl;
 		cout << "5. Find a Officer"<<endl;
 		cout << "6. Find a Criminal"<<endl;
 		cout << "7. Delete Information"<<endl;
-		cout << "8. Exit"<<endl;
+		cout << "8. Update Officer Information"<<endl;
+		cout << "9. Update Criminal Information"<<endl;
+		cout << "10. Change Password"<<endl;
+		cout << "11. Exit"<<endl;
 		cout << endl;
 	}
 	void init(){
@@ -558,10 +790,12 @@ int main(){
 	bool con=1;
 	//gm.auth();
 	gm.init();
+	
 //	char t[100];
 //	strcpy(t,"AyushAgarwal");
 //	gm.police[0].setPass(t);
-//	cout << gm.police[0].getPass();
+//	cout << gm.police[0].officerid;
+	
 	if(!gm.police.size() == 0){
 	while(gm.auth());	
 	}
@@ -600,6 +834,18 @@ int main(){
 			break;
 		}
 		case 8:{
+			gm.updatePolice();
+			break;
+		}
+		case 9:{
+			gm.updateCriminal();
+			break;
+		}
+		case 10:{
+			gm.chgPass();
+			break;
+		}
+		case 11:{
 			con = 0;
 			break;
 		}
