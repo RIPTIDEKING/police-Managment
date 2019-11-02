@@ -1,11 +1,10 @@
-
 #include "basicFun.cpp"
 
 class basePersonInfo{
 	private:
 		char address[100];
 		char phoneNumber[30];
-	protected:
+	public:
 		char dob[15];
 		int age;
 		char gender[20];
@@ -35,9 +34,9 @@ class basePersonInfo{
 };
 
 class Criminal:public basePersonInfo{
-	protected:
-		char caughtBy[100];
+		
 	public:
+		char caughtBy[100];
 		char criminalid[50];
 		char crimes[100];
 		char punishment[100];
@@ -125,11 +124,13 @@ class Criminal:public basePersonInfo{
 };
 
 class PoliceMan:public basePersonInfo{
+	private:
+		char password[100];
 	protected:
 		char salary[100];
 		
 	public:
-		char officerid[50];
+		char officerid[100];
 		char post[100];
 		int cCaught;	
 		
@@ -140,6 +141,13 @@ class PoliceMan:public basePersonInfo{
 			}
 		}
 		return 0;	
+		}
+		
+		void setPass(char pass[]){
+			strcpy(pass,password);
+		}
+		char * getPass(){
+			return password;
 		}
 		
 		void EnterInfo(vector<PoliceMan> v){
@@ -155,6 +163,8 @@ class PoliceMan:public basePersonInfo{
 				return;
 			}
 			
+			cout << "Enter Password: ";
+			cin.getline(password,sizeof(password));
 			cout <<"First Name: ";
 			cin.getline(fName,sizeof(fName));
 			cout <<"Last Name: ";
