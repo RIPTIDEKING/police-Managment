@@ -124,7 +124,7 @@ class Criminal:public basePersonInfo{
 		}
 };
 
-class PoliceMan:private basePersonInfo{
+class PoliceMan:public basePersonInfo{
 	protected:
 		char salary[100];
 		

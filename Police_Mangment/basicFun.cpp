@@ -26,7 +26,14 @@ bool StrCmp(string a, string b){
 int Search(char a[], char b[]){
 		for(int i=0;i<strlen(b);i++){
 			if(toupper(a[i])!=toupper(b[i]))
-				return 1;
+				return 0;
 		}
-	return 0;
+	return 1;
+}
+bool Search(string a, string b){
+		for(int i=0;i<b.size();i++){
+			if(toupper(a[i])!=toupper(b[i]))
+				return 0;
+		}
+	return 1;
 }
